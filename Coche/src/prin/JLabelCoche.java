@@ -13,7 +13,7 @@ public class JLabelCoche extends JLabel{
 	private Coche datCoche;
 	
 	public JLabelCoche() {
-		ImageIcon image = new ImageIcon("/img/coche.png");
+		ImageIcon image = new ImageIcon("/Coche/src/Img/coche.png");
 		this.setIcon(image);
 		this.setBounds(0, 0, 100, 100);	
 		

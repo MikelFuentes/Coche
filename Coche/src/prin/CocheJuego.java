@@ -7,6 +7,7 @@ public class CocheJuego extends Coche{
 	private JLabelCoche dibujoCoche;
 	
 	public CocheJuego(){
+		dibujoCoche = new JLabelCoche();
 		
 	}
 	 public JLabelCoche getGrafico() {

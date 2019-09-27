@@ -9,6 +9,7 @@ public class Coche {
 	 
 	 
 	 public Coche() {
+		 
 		 this.miVelocidad = 0;
 		 this.miDireccionActual = 0;
 		 this.posX = 0;
@@ -52,6 +53,15 @@ public class Coche {
 	}
 
 	public void setMiDireccionActual(double miDireccionActual) {
+		if (this.miDireccionActual >= 360) {
+			miDireccionActual =  miDireccionActual - 360;
+		}
+		if (this.miDireccionActual <= 0) {
+			miDireccionActual = miDireccionActual + 360;
+		}
+			
+		
+		
 		this.miDireccionActual = miDireccionActual;
 	}
 
