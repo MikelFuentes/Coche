@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,8 +17,9 @@ public class Ventana extends JFrame{
 
 	JPanel panelCentro, panelBotones, panelInterface;
 	JButton bAcelerar, bFrenar, bGirarIz, bGirarDe;
-	CocheJuego grafCoche;
-	Hilo miHilo = null;
+	CocheJuego coche;
+	JLabelCoche grafCoche;
+	Hilo hiloVen;
 	
 	
 	public Ventana() {
@@ -24,18 +27,26 @@ public class Ventana extends JFrame{
 		this.setSize(800, 800);
 		panelCentro = new JPanel(null);
 		
+		Hilo h = new Hilo();
 		
 		
-		grafCoche = new CocheJuego();
+		coche = new CocheJuego();
 		
-		panelCentro.add(grafCoche.getGrafico());
+		
+		panelCentro.add(coche.getGrafico());
 		
 		Container panelPrincipal = getContentPane();
 		panelPrincipal.add(panelCentro);
 		panelPrincipal.add(crearBotonera(), BorderLayout.SOUTH);
-		
-		
 		this.setVisible(true);
+		this.addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		    	h.acaba();
+		    }
+		});
+		h.run();
+	
 	}
 	
 	private JPanel crearBotonera() {
@@ -46,8 +57,8 @@ public class Ventana extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				grafCoche.acelera(5);
-				System.out.println(grafCoche.getMiVelocidad());
+				coche.acelera(5);
+				//System.out.println(coche.getMiVelocidad());
 			}
 			
 		});
@@ -56,8 +67,8 @@ public class Ventana extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				grafCoche.acelera(-5);
-				System.out.println(grafCoche.getMiVelocidad());
+				coche.acelera(-5);
+				//System.out.println(coche.getMiVelocidad());
 			}
 			
 		});
@@ -68,8 +79,8 @@ public class Ventana extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				grafCoche.gira(10);
-				System.out.println(grafCoche.getMiDireccionActual());
+				coche.gira(-10);
+				//System.out.println(coche.getMiDireccionActual());
 			}
 			
 		});
@@ -78,8 +89,8 @@ public class Ventana extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				grafCoche.gira(-10);
-				System.out.println(grafCoche.getMiDireccionActual());
+				coche.gira(10);
+				//System.out.println(coche.getMiDireccionActual());
 			}
 			
 		});
@@ -96,13 +107,48 @@ public class Ventana extends JFrame{
 		
 		Hilo(){
 		}
-		public void bucle() {
+		@Override
+		public void run() {
 			while (seguir){
-				Ventana.this.grafCoche.mueve(0.04);
-				Ventana.this.grafCoche.toString();
+				double direc = 0;
+				
+				Ventana.this.coche.mueve(0.04);
+				Ventana.this.coche.getGrafico().setRotacion(Ventana.this.coche.getMiDireccionActual());
+				//System.out.println(Ventana.this.coche.getPosX());
+				
+				if (Ventana.this.coche.getPosX() < -10 || Ventana.this.coche.getPosX() > Ventana.this.panelCentro.getWidth() - 100) {
+					
+				
+					direc = Ventana.this.coche.getMiDireccionActual();
+					direc = 360 - direc;
+					//System.out.println(" PONG ");
+					Ventana.this.coche.setMiDireccionActual(direc);
+				}
+				
+				if (Ventana.this.coche.getPosY() < -10 || Ventana.this.coche.getPosY() > Ventana.this.panelCentro.getHeight() - 100) {
+					
+					
+					direc = Ventana.this.coche.getMiDireccionActual();
+					direc = 180 - direc;
+					//System.out.println(" PONG ");
+					Ventana.this.coche.setMiDireccionActual(direc);
+				}
+					
+					
+				//System.out.println(Ventana.this.coche.toString());
+				try {
+					Thread.sleep(4);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 		}
+		public void acaba() {
+            this.seguir = false;
+		}
+		
 	}
 	
 }

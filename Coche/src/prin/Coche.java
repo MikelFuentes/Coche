@@ -27,13 +27,15 @@ public class Coche {
 	  */
 	  public void gira( double giro ) {
 		  setMiDireccionActual(miDireccionActual + giro);
+		  
 	  }
 	  /** Cambia la posición del coche dependiendo de su velocidad y dirección
 	  * @param tiempoDeMovimiento Tiempo transcurrido, en segundos
 	  */
 	  public void mueve( double tiempoDeMovimiento ) {
-		  this.setPosX(posX + miVelocidad * Math.cos(miDireccionActual / Math.PI * 180.0) * tiempoDeMovimiento);
-		  this.setPosY(posY + miVelocidad * -Math.sin(miDireccionActual /  Math.PI * 180.0 ) * tiempoDeMovimiento);
+		  this.setPosY(posY + miVelocidad * Math.cos(miDireccionActual / 180.0 * Math.PI) * tiempoDeMovimiento);
+		  this.setPosX(posX+ miVelocidad * -Math.sin(miDireccionActual / 180.0 * Math.PI ) * tiempoDeMovimiento);
+		
 		  
 	  } 
 	 
