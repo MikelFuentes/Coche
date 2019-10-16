@@ -84,6 +84,8 @@ public class Ventana extends JFrame{
 			}
 			
 		});
+		
+		
 		bGirarDe = new JButton("Girar derecha");
 		bGirarDe.addActionListener(new ActionListener(){
 
